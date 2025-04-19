@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  splunk:
+    image: splunk/splunk:latest
+    container_name: splunk
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=YourSecurePassword
+      - SPLUNK_ENABLE_LISTEN=9997
+      - SPLUNK_ADD=tcp 1514
+      - SPLUNK_HEC_TOKEN=YourHECToken
+    ports:
+      - "8000:8000"   # Web UI
+      - "8088:8088"   # HTTP Event Collector (HEC)
+      - "9997:9997"   # Data Forwarding
+      - "1515:1514"   # Syslog
+    volumes:
+      - splunk_data:/opt/splunk/var
+      - splunk_etc:/opt/splunk/etc
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=splunk
+      - POSTGRES_PASSWORD=YourPostgresPassword
+      - POSTGRES_DB=splunkdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  splunk_data:
+  splunk_etc:
+  pg_data:
