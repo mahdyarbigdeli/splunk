@@ -6,15 +6,15 @@ services:
     container_name: splunk
     environment:
       - SPLUNK_START_ARGS=--accept-license
-      - SPLUNK_PASSWORD=YourSecurePassword
+      - SPLUNK_PASSWORD=
       - SPLUNK_ENABLE_LISTEN=9997
       - SPLUNK_ADD=tcp 1514
-      - SPLUNK_HEC_TOKEN=YourHECToken
+      - SPLUNK_HEC_TOKEN=      YourHECToken
     ports:
-      - "8000:8000"   # Web UI
-      - "8088:8088"   # HTTP Event Collector (HEC)
-      - "9997:9997"   # Data Forwarding
-      - "1515:1514"   # Syslog
+      - "8000:8000"   
+      - "8088:8088"  
+      - "9997:9997"   
+      - "1515:1514"   
     volumes:
       - splunk_data:/opt/splunk/var
       - splunk_etc:/opt/splunk/etc
@@ -24,9 +24,9 @@ services:
     image: postgres:latest
     container_name: postgres
     environment:
-      - POSTGRES_USER=splunk
-      - POSTGRES_PASSWORD=YourPostgresPassword
-      - POSTGRES_DB=splunkdb
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
     ports:
       - "5432:5432"
     volumes:
